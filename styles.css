@@ -47,6 +47,7 @@ h1 {
 
 .row:last-child {
     padding-bottom: 10em;
+    justify-content: flex-end;
 }
 
 .img {
