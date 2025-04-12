@@ -9,9 +9,6 @@ import {
     Flowmap,
 } from "./src/index.js";
 
-// Import Lenis
-import Lenis from 'https://unpkg.com/lenis@1.2.3/dist/lenis.min.js';
-
 const lenis = new Lenis();
 
 function raf(time) {
@@ -65,7 +62,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
             a2 = canvasAspect / imageAspect;
         }
 
-        Mesh.program.uniforms.res.value = new Vec4(rect.width, rect.height, a1, a2);
+        program.uniforms.res.value = new Vec4(rect.width, rect.height, a1, a2);
 
         renderer.setSize(rect.width, rect.height);
         aspect = rect.width / rect.height;
@@ -73,7 +70,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
 
     const flowmap = new Flowmap(gl, {
         falloff: 0.3,
-        dissapation: 0.92,
+        dissipation: 0.92,
         alpha: 0.5,
     })
 
@@ -84,7 +81,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
         },
         uv: { 
             size: 2, 
-            data: new Float32Array([0, 0, 2, 0, 0, 2])
+            data: new Float32Array([0, 0, 2, 0, 0, 2]) 
         }
     });
 
@@ -115,12 +112,12 @@ document.querySelectorAll(".img").forEach((imgElement) => {
 
     const isTouchCapable = "ontouchstart" in window;
     if (isTouchCapable) {
-        gl.canvas.addEventListener("touchstart", updateMouse, false);
-        gl.canvas.addEventListener("touchmove", updateMouse, {
+        imgElement.addEventListener("touchstart", updateMouse, false);
+        imgElement.addEventListener("touchmove", updateMouse, {
             passive: false,
         });
     } else {
-        gl.canvas.addEventListener("mousemove", updateMouse, false);
+        imgElement.addEventListener("mousemove", updateMouse, false);
     }
 
     let lastTime;
@@ -145,6 +142,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
         if (!lastTime) {
             lastTime = performance.now();
             lastMouse.set(x, y);
+
         }
 
         const deltaX = x - lastMouse.x;
@@ -153,7 +151,7 @@ document.querySelectorAll(".img").forEach((imgElement) => {
         lastMouse.set(x, y);
 
         const time = performance.now();
-        const delta = Math.max(10, time - lastTime);
+        const delta = Math.max(10.4, time - lastTime);
 
         lastTime = time;
 
